@@ -12,7 +12,7 @@ import {
 } from "@/lib/constants";
 import { Search, X } from "lucide-react";
 
-export const Route = createFileRoute("/projects")({
+export const Route = createFileRoute("/projects/")({
   head: () => ({
     meta: [
       { title: "Projects — food n bev" },
