@@ -131,9 +131,14 @@ function FilterSelect<T extends string>({
 }) {
   return (
     <div className="md:col-span-3">
-      <Select value={value ?? "__any"} onValueChange={(v) => onChange(v === "__any" ? undefined : (v as T))}>
+      <Select
+        value={value ?? "__any"}
+        onValueChange={(v) => onChange(v === "__any" ? undefined : (v as T))}
+      >
         <SelectTrigger className="w-full">
-          <SelectValue placeholder={label} />
+          <SelectValue>
+            {value ? options[value] : `Any ${label.toLowerCase()}`}
+          </SelectValue>
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="__any">Any {label.toLowerCase()}</SelectItem>
