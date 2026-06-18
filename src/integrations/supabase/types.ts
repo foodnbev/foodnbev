@@ -194,40 +194,18 @@ export type Database = {
       }
     }
     Views: {
-      project_party_presence: {
-        Row: {
-          categories: string[] | null
-          project_id: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "project_parties_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "projects"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      project_rating_summary: {
-        Row: {
-          avg_accuracy: number | null
-          avg_hotness: number | null
-          project_id: string | null
-          rating_count: number | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "project_ratings_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "projects"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
+      [_ in never]: never
     }
     Functions: {
+      get_party_presence: { Args: { p_id: string }; Returns: string[] }
+      get_rating_summary: {
+        Args: { p_id: string }
+        Returns: {
+          avg_accuracy: number
+          avg_hotness: number
+          rating_count: number
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
