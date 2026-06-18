@@ -89,7 +89,7 @@ function ProjectDetail() {
 
   async function deleteProject() {
     if (!confirm("Delete this project?")) return;
-    const { error } = await supabase.from("projects").delete().eq("id", project.id);
+    const { error } = await supabase.from("projects").delete().eq("id", project!.id);
     if (error) return toast.error(error.message);
     toast.success("Deleted");
     router.navigate({ to: "/projects" });
