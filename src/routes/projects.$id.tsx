@@ -207,6 +207,8 @@ function ProjectDetail() {
             </div>
           </aside>
         </div>
+
+        <ProjectInfoSection projectId={project.id} currentUserId={user?.id ?? null} />
       </article>
     </AppShell>
   );
