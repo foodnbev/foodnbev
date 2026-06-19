@@ -44,6 +44,53 @@ export type Database = {
         }
         Relationships: []
       }
+      project_info_entries: {
+        Row: {
+          attachment_mime: string | null
+          attachment_name: string | null
+          attachment_path: string | null
+          attachment_size: number | null
+          body: string | null
+          created_at: string
+          created_by: string
+          id: string
+          project_id: string
+          updated_at: string
+        }
+        Insert: {
+          attachment_mime?: string | null
+          attachment_name?: string | null
+          attachment_path?: string | null
+          attachment_size?: number | null
+          body?: string | null
+          created_at?: string
+          created_by: string
+          id?: string
+          project_id: string
+          updated_at?: string
+        }
+        Update: {
+          attachment_mime?: string | null
+          attachment_name?: string | null
+          attachment_path?: string | null
+          attachment_size?: number | null
+          body?: string | null
+          created_at?: string
+          created_by?: string
+          id?: string
+          project_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_info_entries_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       project_parties: {
         Row: {
           category: Database["public"]["Enums"]["party_category"]
