@@ -110,15 +110,15 @@ function EmptyState() {
 
 function ValueProps() {
   const items = [
-    { t: "Track who's building what", d: "From planning to commissioning — see status, location and a project brief at a glance." },
-    { t: "Find the right partners", d: "Architects, M&E, GCs, flooring, drainage — by company, area or specialism." },
-    { t: "Scored by the community", d: "How hot it is, how accurate it is, plus an automatic completeness score." },
+    { t: "Track who's building what", d: "From planning to commissioning — see status, location and a project brief at a glance.", accent: "var(--sand)" as const },
+    { t: "Find the right partners", d: "Architects, M&E, GCs, flooring, drainage — by company, area or specialism.", accent: "var(--teal)" as const },
+    { t: "Scored by the community", d: "How hot it is, how accurate it is, plus an automatic completeness score.", accent: "var(--ink)" as const },
   ];
   return (
-    <section className="border-t bg-muted/30">
+    <section className="border-t border-b bg-muted/30">
       <div className="mx-auto grid max-w-7xl gap-6 px-4 py-16 sm:px-6 md:grid-cols-3">
         {items.map((i) => (
-          <div key={i.t} className="rounded-2xl border bg-card p-6">
+          <div key={i.t} className="rounded-2xl border bg-card p-6" style={{ borderTopWidth: 4, borderTopColor: i.accent }}>
             <h3 className="text-base font-semibold">{i.t}</h3>
             <p className="mt-2 text-sm text-muted-foreground">{i.d}</p>
           </div>
