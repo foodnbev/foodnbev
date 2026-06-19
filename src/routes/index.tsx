@@ -42,38 +42,33 @@ function Hero() {
   return (
     <section className="relative overflow-hidden border-b">
       <div
-        className="absolute inset-0 -z-10 opacity-60"
+        className="absolute inset-0 -z-10"
         style={{
           background:
-            "radial-gradient(60% 50% at 10% 0%, color-mix(in oklch, var(--sand) 35%, white) 0%, transparent 60%), radial-gradient(50% 50% at 100% 100%, color-mix(in oklch, var(--teal) 40%, white) 0%, transparent 60%)",
+            "radial-gradient(70% 60% at 5% 10%, color-mix(in oklch, var(--sand) 55%, white) 0%, transparent 55%), radial-gradient(60% 60% at 95% 90%, color-mix(in oklch, var(--teal) 60%, white) 0%, transparent 55%)",
         }}
       />
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-20 sm:px-6 md:grid-cols-[1.2fr_1fr] md:py-28">
         <div className="space-y-6">
-          <span className="fnb-chip fnb-chip-teal"><Sparkles className="size-3" /> Community-built register</span>
+          <span className="fnb-chip fnb-chip-sand"><Sparkles className="size-3" /> Community-built register</span>
           <h1 className="text-balance text-5xl font-semibold leading-[1.05] tracking-tight md:text-6xl">
-            Every F&amp;B construction project, <span style={{ color: "var(--sand)" }}>in one place</span>.
+            Every F&amp;B construction project, <span className="text-[var(--sand)]">in one place</span>.
           </h1>
           <p className="max-w-xl text-pretty text-lg text-foreground/70">
             Newbuilds, extensions and refurbishments across breweries, distilleries and food processing facilities — contributed, scored and kept up to date by the people who actually work on them.
           </p>
           <div className="flex flex-wrap gap-3">
-            <Button asChild size="lg">
+            <Button asChild size="lg" className="bg-[var(--teal)] text-[var(--teal-foreground)] hover:bg-[color-mix(in_oklch,var(--teal)_85%,black)] border-[var(--teal)]">
               <Link to="/projects"><Search className="size-4" /> Browse projects</Link>
             </Button>
-            <Button asChild size="lg" variant="outline">
-              <Link to="/auth">Join the register <ArrowRight className="size-4" /></Link>
+            <Button asChild size="lg" className="bg-[var(--ink)] text-white hover:bg-[oklch(0.25_0_0)]">
+              <Link to="/auth">Register <ArrowRight className="size-4" /></Link>
             </Button>
           </div>
         </div>
         <div className="relative hidden items-center justify-center md:flex">
-          <div className="rounded-3xl border bg-card/80 p-10 shadow-sm backdrop-blur">
-            <img src={logoAsset.url} alt="food n bev logo" className="h-20 w-auto" />
-            <div className="mt-6 grid grid-cols-3 gap-3">
-              {["Brewery", "Distillery", "Processing"].map((t) => (
-                <span key={t} className="fnb-chip justify-center">{t}</span>
-              ))}
-            </div>
+          <div className="rounded-3xl border-2 border-[var(--sand)] bg-white/90 p-12 shadow-lg shadow-black/5 backdrop-blur">
+            <img src={logoAsset.url} alt="food n bev logo" className="h-32 w-auto" />
           </div>
         </div>
       </div>
