@@ -15,7 +15,10 @@ import { useAuth } from "@/hooks/useAuth";
 import {
   FACILITY_LABEL, FOOD_SUBTYPE_LABEL, PARTY_CATEGORY_LABEL, PARTY_CATEGORY_ORDER,
   STATUS_LABEL, STATUS_TONE, WORK_TYPE_LABEL, type PartyCategory,
+  type ProjectStatus, type WorkType,
 } from "@/lib/constants";
+import { ProjectInfoSection } from "@/components/projects/ProjectInfo";
+import { ProjectMetaEditor } from "@/components/projects/ProjectMetaEditor";
 import { CheckCircle2, Circle, Lock, MapPin, Plus, Trash2 } from "lucide-react";
 
 export const Route = createFileRoute("/projects/$id")({
@@ -107,11 +110,22 @@ function ProjectDetail() {
       <article className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
         <header className="grid gap-8 md:grid-cols-[1.4fr_1fr]">
           <div>
-            <div className="flex flex-wrap items-center gap-1.5">
-              <span className={`fnb-chip ${STATUS_TONE[project.status as keyof typeof STATUS_TONE]}`}>{STATUS_LABEL[project.status as keyof typeof STATUS_LABEL]}</span>
+            {user ? (
+              <ProjectMetaEditor
+                projectId={project.id}
+                status={project.status as ProjectStatus}
+                workType={(project.work_type as WorkType | null) ?? null}
+                onSaved={refresh}
+              />
+            ) : (
+              <div className="flex flex-wrap items-center gap-1.5">
+                <span className={`fnb-chip ${STATUS_TONE[project.status as keyof typeof STATUS_TONE]}`}>{STATUS_LABEL[project.status as keyof typeof STATUS_LABEL]}</span>
+                {project.work_type && <span className="fnb-chip">{WORK_TYPE_LABEL[project.work_type as keyof typeof WORK_TYPE_LABEL]}</span>}
+              </div>
+            )}
+            <div className="mt-2 flex flex-wrap items-center gap-1.5">
               <span className="fnb-chip">{FACILITY_LABEL[project.facility_type as keyof typeof FACILITY_LABEL]}</span>
               {project.food_subtype && <span className="fnb-chip">{FOOD_SUBTYPE_LABEL[project.food_subtype as keyof typeof FOOD_SUBTYPE_LABEL]}</span>}
-              {project.work_type && <span className="fnb-chip">{WORK_TYPE_LABEL[project.work_type as keyof typeof WORK_TYPE_LABEL]}</span>}
             </div>
             <h1 className="mt-3 text-3xl font-semibold leading-tight tracking-tight md:text-5xl">{project.name}</h1>
             <p className="mt-3 flex items-start gap-2 text-foreground/75">
