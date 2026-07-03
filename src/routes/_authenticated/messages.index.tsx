@@ -14,8 +14,8 @@ export const Route = createFileRoute("/_authenticated/messages/")({
 });
 
 type ConnWithProfiles = ConnectionRow & {
-  requester: { id: string; alias: string | null } | null;
-  addressee: { id: string; alias: string | null } | null;
+  requester_alias: string | null;
+  addressee_alias: string | null;
 };
 
 function MessagesHome() {
@@ -27,10 +27,21 @@ function MessagesHome() {
     if (!user) return;
     const { data, error } = await supabase
       .from("connections")
-      .select("*, requester:profiles!connections_requester_id_fkey(id,alias), addressee:profiles!connections_addressee_id_fkey(id,alias)")
+      .select("*")
       .order("updated_at", { ascending: false });
     if (error) toast.error(error.message);
-    setConns((data as any) ?? []);
+    const list = (data as any[]) ?? [];
+    const ids = new Set<string>();
+    for (const c of list) { ids.add(c.requester_id); ids.add(c.addressee_id); }
+    const { data: profs } = ids.size
+      ? await supabase.from("profiles").select("id,alias").in("id", Array.from(ids))
+      : { data: [] as any[] };
+    const alias = new Map((profs ?? []).map((p: any) => [p.id, p.alias as string | null]));
+    setConns(list.map((c) => ({
+      ...c,
+      requester_alias: alias.get(c.requester_id) ?? null,
+      addressee_alias: alias.get(c.addressee_id) ?? null,
+    })));
     setLoading(false);
   }
   useEffect(() => { load(); }, [user?.id]);
@@ -41,8 +52,11 @@ function MessagesHome() {
   const outgoing = conns.filter((c) => c.status === "pending" && c.requester_id === user.id);
   const accepted = conns.filter((c) => c.status === "accepted");
 
-  function other(c: ConnWithProfiles) {
-    return c.requester_id === user!.id ? c.addressee : c.requester;
+  function otherId(c: ConnWithProfiles) {
+    return c.requester_id === user!.id ? c.addressee_id : c.requester_id;
+  }
+  function otherAlias(c: ConnWithProfiles) {
+    return c.requester_id === user!.id ? c.addressee_alias : c.requester_alias;
   }
 
   return (
