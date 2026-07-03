@@ -27,9 +27,17 @@ export function Header() {
             Projects
           </Link>
           {user && (
-            <Link to="/account" className="text-foreground/70 hover:text-foreground [&.active]:text-foreground">
-              My account
-            </Link>
+            <>
+              <Link to="/threads" className="text-foreground/70 hover:text-foreground [&.active]:text-foreground">
+                Discussions
+              </Link>
+              <Link to="/messages" className="text-foreground/70 hover:text-foreground [&.active]:text-foreground">
+                Messages
+              </Link>
+              <Link to="/account" className="text-foreground/70 hover:text-foreground [&.active]:text-foreground">
+                My account
+              </Link>
+            </>
           )}
         </nav>
         <div className="flex items-center gap-2">
