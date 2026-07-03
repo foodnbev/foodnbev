@@ -19,7 +19,8 @@ import {
 } from "@/lib/constants";
 import { ProjectInfoSection } from "@/components/projects/ProjectInfo";
 import { ProjectMetaEditor } from "@/components/projects/ProjectMetaEditor";
-import { CheckCircle2, Circle, Lock, MapPin, Plus, Trash2 } from "lucide-react";
+import { ConnectButton } from "@/components/social/ConnectButton";
+import { CheckCircle2, Circle, Lock, MapPin, MessageSquarePlus, Plus, Trash2 } from "lucide-react";
 
 export const Route = createFileRoute("/projects/$id")({
   loader: async ({ params, context }) =>

@@ -16,7 +16,12 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProjectsIndexRouteImport } from './routes/projects.index'
 import { Route as ProjectsIdRouteImport } from './routes/projects.$id'
 import { Route as AuthenticatedAccountRouteImport } from './routes/_authenticated/account'
+import { Route as AuthenticatedThreadsIndexRouteImport } from './routes/_authenticated/threads.index'
+import { Route as AuthenticatedMessagesIndexRouteImport } from './routes/_authenticated/messages.index'
+import { Route as AuthenticatedThreadsNewRouteImport } from './routes/_authenticated/threads.new'
+import { Route as AuthenticatedThreadsIdRouteImport } from './routes/_authenticated/threads.$id'
 import { Route as AuthenticatedProjectsNewRouteImport } from './routes/_authenticated/projects.new'
+import { Route as AuthenticatedMessagesUserIdRouteImport } from './routes/_authenticated/messages.$userId'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -52,10 +57,38 @@ const AuthenticatedAccountRoute = AuthenticatedAccountRouteImport.update({
   path: '/account',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedThreadsIndexRoute =
+  AuthenticatedThreadsIndexRouteImport.update({
+    id: '/threads/',
+    path: '/threads/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedMessagesIndexRoute =
+  AuthenticatedMessagesIndexRouteImport.update({
+    id: '/messages/',
+    path: '/messages/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedThreadsNewRoute = AuthenticatedThreadsNewRouteImport.update({
+  id: '/threads/new',
+  path: '/threads/new',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedThreadsIdRoute = AuthenticatedThreadsIdRouteImport.update({
+  id: '/threads/$id',
+  path: '/threads/$id',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedProjectsNewRoute =
   AuthenticatedProjectsNewRouteImport.update({
     id: '/projects/new',
     path: '/projects/new',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedMessagesUserIdRoute =
+  AuthenticatedMessagesUserIdRouteImport.update({
+    id: '/messages/$userId',
+    path: '/messages/$userId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 
@@ -66,7 +99,12 @@ export interface FileRoutesByFullPath {
   '/account': typeof AuthenticatedAccountRoute
   '/projects/$id': typeof ProjectsIdRoute
   '/projects/': typeof ProjectsIndexRoute
+  '/messages/$userId': typeof AuthenticatedMessagesUserIdRoute
   '/projects/new': typeof AuthenticatedProjectsNewRoute
+  '/threads/$id': typeof AuthenticatedThreadsIdRoute
+  '/threads/new': typeof AuthenticatedThreadsNewRoute
+  '/messages/': typeof AuthenticatedMessagesIndexRoute
+  '/threads/': typeof AuthenticatedThreadsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -75,7 +113,12 @@ export interface FileRoutesByTo {
   '/account': typeof AuthenticatedAccountRoute
   '/projects/$id': typeof ProjectsIdRoute
   '/projects': typeof ProjectsIndexRoute
+  '/messages/$userId': typeof AuthenticatedMessagesUserIdRoute
   '/projects/new': typeof AuthenticatedProjectsNewRoute
+  '/threads/$id': typeof AuthenticatedThreadsIdRoute
+  '/threads/new': typeof AuthenticatedThreadsNewRoute
+  '/messages': typeof AuthenticatedMessagesIndexRoute
+  '/threads': typeof AuthenticatedThreadsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -86,7 +129,12 @@ export interface FileRoutesById {
   '/_authenticated/account': typeof AuthenticatedAccountRoute
   '/projects/$id': typeof ProjectsIdRoute
   '/projects/': typeof ProjectsIndexRoute
+  '/_authenticated/messages/$userId': typeof AuthenticatedMessagesUserIdRoute
   '/_authenticated/projects/new': typeof AuthenticatedProjectsNewRoute
+  '/_authenticated/threads/$id': typeof AuthenticatedThreadsIdRoute
+  '/_authenticated/threads/new': typeof AuthenticatedThreadsNewRoute
+  '/_authenticated/messages/': typeof AuthenticatedMessagesIndexRoute
+  '/_authenticated/threads/': typeof AuthenticatedThreadsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -97,7 +145,12 @@ export interface FileRouteTypes {
     | '/account'
     | '/projects/$id'
     | '/projects/'
+    | '/messages/$userId'
     | '/projects/new'
+    | '/threads/$id'
+    | '/threads/new'
+    | '/messages/'
+    | '/threads/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -106,7 +159,12 @@ export interface FileRouteTypes {
     | '/account'
     | '/projects/$id'
     | '/projects'
+    | '/messages/$userId'
     | '/projects/new'
+    | '/threads/$id'
+    | '/threads/new'
+    | '/messages'
+    | '/threads'
   id:
     | '__root__'
     | '/'
@@ -116,7 +174,12 @@ export interface FileRouteTypes {
     | '/_authenticated/account'
     | '/projects/$id'
     | '/projects/'
+    | '/_authenticated/messages/$userId'
     | '/_authenticated/projects/new'
+    | '/_authenticated/threads/$id'
+    | '/_authenticated/threads/new'
+    | '/_authenticated/messages/'
+    | '/_authenticated/threads/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -179,6 +242,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAccountRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/threads/': {
+      id: '/_authenticated/threads/'
+      path: '/threads'
+      fullPath: '/threads/'
+      preLoaderRoute: typeof AuthenticatedThreadsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/messages/': {
+      id: '/_authenticated/messages/'
+      path: '/messages'
+      fullPath: '/messages/'
+      preLoaderRoute: typeof AuthenticatedMessagesIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/threads/new': {
+      id: '/_authenticated/threads/new'
+      path: '/threads/new'
+      fullPath: '/threads/new'
+      preLoaderRoute: typeof AuthenticatedThreadsNewRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/threads/$id': {
+      id: '/_authenticated/threads/$id'
+      path: '/threads/$id'
+      fullPath: '/threads/$id'
+      preLoaderRoute: typeof AuthenticatedThreadsIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/projects/new': {
       id: '/_authenticated/projects/new'
       path: '/projects/new'
@@ -186,17 +277,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedProjectsNewRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/messages/$userId': {
+      id: '/_authenticated/messages/$userId'
+      path: '/messages/$userId'
+      fullPath: '/messages/$userId'
+      preLoaderRoute: typeof AuthenticatedMessagesUserIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAccountRoute: typeof AuthenticatedAccountRoute
+  AuthenticatedMessagesUserIdRoute: typeof AuthenticatedMessagesUserIdRoute
   AuthenticatedProjectsNewRoute: typeof AuthenticatedProjectsNewRoute
+  AuthenticatedThreadsIdRoute: typeof AuthenticatedThreadsIdRoute
+  AuthenticatedThreadsNewRoute: typeof AuthenticatedThreadsNewRoute
+  AuthenticatedMessagesIndexRoute: typeof AuthenticatedMessagesIndexRoute
+  AuthenticatedThreadsIndexRoute: typeof AuthenticatedThreadsIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAccountRoute: AuthenticatedAccountRoute,
+  AuthenticatedMessagesUserIdRoute: AuthenticatedMessagesUserIdRoute,
   AuthenticatedProjectsNewRoute: AuthenticatedProjectsNewRoute,
+  AuthenticatedThreadsIdRoute: AuthenticatedThreadsIdRoute,
+  AuthenticatedThreadsNewRoute: AuthenticatedThreadsNewRoute,
+  AuthenticatedMessagesIndexRoute: AuthenticatedMessagesIndexRoute,
+  AuthenticatedThreadsIndexRoute: AuthenticatedThreadsIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
