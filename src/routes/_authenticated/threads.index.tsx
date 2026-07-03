@@ -14,7 +14,7 @@ type Row = {
   id: string; title: string; created_at: string; updated_at: string;
   created_by: string; project_id: string | null;
   projects: { id: string; name: string } | null;
-  profiles: { alias: string | null } | null;
+  creator_alias?: string | null;
 };
 
 function ThreadsIndex() {
@@ -25,10 +25,16 @@ function ThreadsIndex() {
     (async () => {
       const { data } = await supabase
         .from("threads")
-        .select("id,title,created_at,updated_at,created_by,project_id,projects(id,name),profiles!threads_created_by_fkey(alias)")
+        .select("id,title,created_at,updated_at,created_by,project_id,projects(id,name)")
         .order("updated_at", { ascending: false })
         .limit(200);
-      setRows((data as any) ?? []);
+      const list = (data as any[]) ?? [];
+      const ids = Array.from(new Set(list.map((r) => r.created_by)));
+      const { data: profs } = ids.length
+        ? await supabase.from("profiles").select("id,alias").in("id", ids)
+        : { data: [] as any[] };
+      const alias = new Map((profs ?? []).map((p: any) => [p.id, p.alias]));
+      setRows(list.map((r) => ({ ...r, creator_alias: alias.get(r.created_by) ?? null })));
       setLoading(false);
     })();
   }, []);
