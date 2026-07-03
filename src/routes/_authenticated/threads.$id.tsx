@@ -102,7 +102,7 @@ function ThreadDetail() {
           <div>
             <h1 className="text-2xl font-semibold tracking-tight">{thread.title}</h1>
             <div className="mt-1 flex flex-wrap gap-2 text-xs text-muted-foreground">
-              {thread.profiles?.alias && <span>started by {thread.profiles.alias}</span>}
+              {thread.creator_alias && <span>started by {thread.profiles.alias}</span>}
               {thread.projects && (
                 <span>· project: <Link to="/projects/$id" params={{ id: thread.projects.id }} className="underline">{thread.projects.name}</Link></span>
               )}
@@ -117,7 +117,7 @@ function ThreadDetail() {
           {msgs.map((m) => (
             <div key={m.id} className="rounded-lg border bg-background p-3">
               <div className="flex items-center justify-between gap-2 text-xs text-muted-foreground">
-                <span><span className="font-medium text-foreground">{m.profiles?.alias ?? "user"}</span> · {new Date(m.created_at).toLocaleString()}</span>
+                <span><span className="font-medium text-foreground">{m.alias ?? "user"}</span> · {new Date(m.created_at).toLocaleString()}</span>
                 {m.user_id === user?.id && (
                   <button aria-label="Delete" onClick={() => deleteMsg(m.id)} className="text-muted-foreground hover:text-destructive">
                     <Trash2 className="size-3.5" />
