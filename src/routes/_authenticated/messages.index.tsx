@@ -75,7 +75,7 @@ function MessagesHome() {
               {incoming.length === 0 && <Empty>No pending requests.</Empty>}
               {incoming.map((c) => (
                 <Row key={c.id}>
-                  <span className="font-medium">{other(c)?.alias ?? "user"}</span>
+                  <span className="font-medium">{otherAlias(c) ?? "user"}</span>
                   <div className="flex gap-1.5">
                     <Button size="sm" onClick={async () => { await respondToConnection(c.id, true); load(); }}><Check className="size-3.5" /> Accept</Button>
                     <Button size="sm" variant="outline" onClick={async () => { await respondToConnection(c.id, false); load(); }}><X className="size-3.5" /> Reject</Button>
@@ -88,7 +88,7 @@ function MessagesHome() {
               {outgoing.length === 0 && <Empty>No sent requests.</Empty>}
               {outgoing.map((c) => (
                 <Row key={c.id}>
-                  <span>{other(c)?.alias ?? "user"} <span className="text-xs text-muted-foreground">· pending</span></span>
+                  <span>{otherAlias(c) ?? "user"} <span className="text-xs text-muted-foreground">· pending</span></span>
                   <Button size="sm" variant="ghost" onClick={async () => { await removeConnection(c.id); load(); }}><Trash2 className="size-3.5" /> Cancel</Button>
                 </Row>
               ))}
@@ -97,15 +97,13 @@ function MessagesHome() {
             <Section title={`Connections (${accepted.length})`}>
               {accepted.length === 0 && <Empty>No connections yet.</Empty>}
               {accepted.map((c) => {
-                const o = other(c);
+                const oid = otherId(c);
                 return (
                   <Row key={c.id}>
-                    <span className="font-medium">{o?.alias ?? "user"}</span>
-                    {o?.id && (
-                      <Button asChild size="sm">
-                        <Link to="/messages/$userId" params={{ userId: o.id }}><MessageSquare className="size-3.5" /> Message</Link>
-                      </Button>
-                    )}
+                    <span className="font-medium">{otherAlias(c) ?? "user"}</span>
+                    <Button asChild size="sm">
+                      <Link to="/messages/$userId" params={{ userId: oid }}><MessageSquare className="size-3.5" /> Message</Link>
+                    </Button>
                   </Row>
                 );
               })}
