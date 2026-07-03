@@ -102,7 +102,7 @@ function ThreadDetail() {
           <div>
             <h1 className="text-2xl font-semibold tracking-tight">{thread.title}</h1>
             <div className="mt-1 flex flex-wrap gap-2 text-xs text-muted-foreground">
-              {thread.creator_alias && <span>started by {thread.profiles.alias}</span>}
+              {thread.creator_alias && <span>started by {thread.creator_alias}</span>}
               {thread.projects && (
                 <span>· project: <Link to="/projects/$id" params={{ id: thread.projects.id }} className="underline">{thread.projects.name}</Link></span>
               )}
