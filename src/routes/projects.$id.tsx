@@ -134,7 +134,19 @@ function ProjectDetail() {
             </p>
             <p className="mt-5 max-w-2xl text-pretty text-foreground/85">{project.description}</p>
             {detailQ.data?.ownerAlias && (
-              <p className="mt-4 text-xs text-muted-foreground">Added by <span className="font-medium text-foreground">{detailQ.data.ownerAlias}</span></p>
+              <p className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
+                Added by <span className="font-medium text-foreground">{detailQ.data.ownerAlias}</span>
+                {project.created_by && <ConnectButton otherUserId={project.created_by} otherAlias={detailQ.data.ownerAlias} />}
+              </p>
+            )}
+            {user && (
+              <div className="mt-4">
+                <Button asChild size="sm" variant="outline">
+                  <Link to="/threads/new" search={{ projectId: project.id }}>
+                    <MessageSquarePlus className="size-4" /> Start discussion about this project
+                  </Link>
+                </Button>
+              </div>
             )}
             {isOwner && (
               <div className="mt-5">
