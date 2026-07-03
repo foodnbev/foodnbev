@@ -67,7 +67,7 @@ function ThreadsIndex() {
                     <span className="text-xs text-muted-foreground">{new Date(r.updated_at).toLocaleString()}</span>
                   </div>
                   <div className="mt-1 flex flex-wrap gap-2 text-xs text-muted-foreground">
-                    {r.creator_alias && <span>by {r.profiles.alias}</span>}
+                    {r.creator_alias && <span>by {r.creator_alias}</span>}
                     {r.projects && <span>· project: {r.projects.name}</span>}
                   </div>
                 </Link>
