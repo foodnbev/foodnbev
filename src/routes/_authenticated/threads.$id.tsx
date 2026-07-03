@@ -15,12 +15,12 @@ export const Route = createFileRoute("/_authenticated/threads/$id")({
 
 type Msg = {
   id: string; body: string; created_at: string; user_id: string;
-  profiles: { alias: string | null } | null;
+  alias?: string | null;
 };
 type Thread = {
   id: string; title: string; created_by: string; project_id: string | null;
   projects: { id: string; name: string } | null;
-  profiles: { alias: string | null } | null;
+  creator_alias?: string | null;
 };
 
 function ThreadDetail() {
@@ -36,14 +36,21 @@ function ThreadDetail() {
   async function load() {
     const [{ data: t }, { data: m }] = await Promise.all([
       supabase.from("threads")
-        .select("id,title,created_by,project_id,projects(id,name),profiles!threads_created_by_fkey(alias)")
+        .select("id,title,created_by,project_id,projects(id,name)")
         .eq("id", id).maybeSingle(),
       supabase.from("thread_messages")
-        .select("id,body,created_at,user_id,profiles!thread_messages_user_id_fkey(alias)")
+        .select("id,body,created_at,user_id")
         .eq("thread_id", id).order("created_at"),
     ]);
-    setThread(t as any);
-    setMsgs((m as any) ?? []);
+    const messages = (m as any[]) ?? [];
+    const ids = new Set<string>(messages.map((x) => x.user_id));
+    if (t) ids.add((t as any).created_by);
+    const { data: profs } = ids.size
+      ? await supabase.from("profiles").select("id,alias").in("id", Array.from(ids))
+      : { data: [] as any[] };
+    const alias = new Map((profs ?? []).map((p: any) => [p.id, p.alias as string | null]));
+    setThread(t ? { ...(t as any), creator_alias: alias.get((t as any).created_by) ?? null } : null);
+    setMsgs(messages.map((x) => ({ ...x, alias: alias.get(x.user_id) ?? null })));
   }
 
   useEffect(() => { load(); }, [id]);
