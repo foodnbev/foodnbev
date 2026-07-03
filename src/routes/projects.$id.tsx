@@ -271,12 +271,18 @@ function FullPartyList({ parties, currentUserId, onDelete }: { parties: PartyRow
           ];
         }
         return rows.map((row) => (
-          <PartyCard
-            key={row.id}
-            row={row}
-            canDelete={row.created_by === currentUserId}
-            onDelete={() => onDelete(row.id)}
-          />
+          <div key={row.id} className="space-y-1.5">
+            <PartyCard
+              row={row}
+              canDelete={row.created_by === currentUserId}
+              onDelete={() => onDelete(row.id)}
+            />
+            {row.created_by !== currentUserId && (
+              <div className="flex justify-end pr-1">
+                <ConnectButton otherUserId={row.created_by} />
+              </div>
+            )}
+          </div>
         ));
       })}
     </div>
