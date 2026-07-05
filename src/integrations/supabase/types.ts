@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      companies: {
+        Row: {
+          category: Database["public"]["Enums"]["company_category"]
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          logo_url: string | null
+          name: string
+          updated_at: string
+          website: string | null
+        }
+        Insert: {
+          category: Database["public"]["Enums"]["company_category"]
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          logo_url?: string | null
+          name: string
+          updated_at?: string
+          website?: string | null
+        }
+        Update: {
+          category?: Database["public"]["Enums"]["company_category"]
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          logo_url?: string | null
+          name?: string
+          updated_at?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
       connections: {
         Row: {
           addressee_id: string
@@ -161,6 +197,7 @@ export type Database = {
         Row: {
           category: Database["public"]["Enums"]["party_category"]
           company: string | null
+          company_id: string | null
           contact_name: string | null
           created_at: string
           created_by: string
@@ -174,6 +211,7 @@ export type Database = {
         Insert: {
           category: Database["public"]["Enums"]["party_category"]
           company?: string | null
+          company_id?: string | null
           contact_name?: string | null
           created_at?: string
           created_by: string
@@ -187,6 +225,7 @@ export type Database = {
         Update: {
           category?: Database["public"]["Enums"]["party_category"]
           company?: string | null
+          company_id?: string | null
           contact_name?: string | null
           created_at?: string
           created_by?: string
@@ -198,6 +237,13 @@ export type Database = {
           spec_description?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "project_parties_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "project_parties_project_id_fkey"
             columns: ["project_id"]
@@ -401,6 +447,12 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "user"
+      company_category:
+        | "architect"
+        | "general_contractor"
+        | "flooring"
+        | "groundworks"
+        | "other"
       connection_status: "pending" | "accepted" | "rejected"
       facility_type: "brewery" | "distillery" | "food_processing"
       food_subtype: "meat" | "fish" | "snacks" | "coldroom" | "other"
@@ -545,6 +597,13 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "user"],
+      company_category: [
+        "architect",
+        "general_contractor",
+        "flooring",
+        "groundworks",
+        "other",
+      ],
       connection_status: ["pending", "accepted", "rejected"],
       facility_type: ["brewery", "distillery", "food_processing"],
       food_subtype: ["meat", "fish", "snacks", "coldroom", "other"],
