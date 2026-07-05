@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { z } from "zod";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { PARTY_CATEGORY_LABEL, PARTY_CATEGORY_ORDER, type PartyCategory } from "@/lib/constants";
+import { Building2, Link2 } from "lucide-react";
 
 const Schema = z.object({
   category: z.enum([
@@ -21,6 +22,17 @@ const Schema = z.object({
   phone: z.string().trim().max(40).optional(),
   spec_description: z.string().trim().max(1000).optional(),
 });
+
+type DirCompany = { id: string; name: string; category: string; logo_url: string | null };
+
+// Party categories map onto directory categories (subset).
+const DIR_CATEGORY_FOR: Partial<Record<PartyCategory, string>> = {
+  architect: "architect",
+  general_contractor: "general_contractor",
+  flooring: "flooring",
+  groundworks: "groundworks",
+  other: "other",
+};
 
 export function PartyForm({
   projectId,
@@ -44,8 +56,29 @@ export function PartyForm({
     email: "",
     phone: "",
     spec_description: "",
+    company_id: null as string | null,
   });
   const [busy, setBusy] = useState(false);
+  const [directory, setDirectory] = useState<DirCompany[]>([]);
+
+  useEffect(() => {
+    void (async () => {
+      const { data } = await supabase
+        .from("companies")
+        .select("id,name,category,logo_url")
+        .order("name", { ascending: true });
+      setDirectory((data ?? []) as DirCompany[]);
+    })();
+  }, []);
+
+  const dirCat = DIR_CATEGORY_FOR[form.category];
+  const suggestions = useMemo(() => {
+    if (!dirCat) return [];
+    const term = form.company.trim().toLowerCase();
+    return directory
+      .filter((d) => d.category === dirCat && (!term || d.name.toLowerCase().includes(term)))
+      .slice(0, 8);
+  }, [directory, dirCat, form.company]);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -71,6 +104,7 @@ export function PartyForm({
       email: form.email || null,
       phone: form.phone || null,
       spec_description: form.spec_description || null,
+      company_id: form.company_id,
     });
     setBusy(false);
     if (error) return toast.error(error.message);
@@ -78,12 +112,16 @@ export function PartyForm({
     onAdded();
   }
 
+  function pickFromDirectory(d: DirCompany) {
+    setForm((f) => ({ ...f, company: d.name, company_id: d.id }));
+  }
+
   return (
     <form onSubmit={submit} className="space-y-4 rounded-xl border bg-card p-4">
       <div className="grid gap-3 sm:grid-cols-2">
         <div className="space-y-1.5">
           <Label>Category</Label>
-          <Select value={form.category} onValueChange={(v) => setForm({ ...form, category: v as PartyCategory })}>
+          <Select value={form.category} onValueChange={(v) => setForm({ ...form, category: v as PartyCategory, company_id: null })}>
             <SelectTrigger><SelectValue /></SelectTrigger>
             <SelectContent>
               {available.map((c) => (
@@ -98,9 +136,34 @@ export function PartyForm({
             <Input value={form.other_label} onChange={(e) => setForm({ ...form, other_label: e.target.value })} maxLength={80} />
           </div>
         )}
-        <div className="space-y-1.5">
-          <Label>Company</Label>
-          <Input value={form.company} onChange={(e) => setForm({ ...form, company: e.target.value })} />
+        <div className="space-y-1.5 sm:col-span-2">
+          <Label className="flex items-center gap-1.5">
+            Company {form.company_id && <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary"><Link2 className="size-3" /> from directory</span>}
+          </Label>
+          <Input
+            value={form.company}
+            onChange={(e) => setForm({ ...form, company: e.target.value, company_id: null })}
+            placeholder="Type or pick from directory below"
+          />
+          {dirCat && suggestions.length > 0 && (
+            <div className="flex flex-wrap gap-1.5 pt-1">
+              {suggestions.map((d) => (
+                <button
+                  key={d.id}
+                  type="button"
+                  onClick={() => pickFromDirectory(d)}
+                  className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs hover:bg-muted ${form.company_id === d.id ? "border-primary bg-primary/10 text-primary" : "border-border"}`}
+                >
+                  {d.logo_url ? (
+                    <img src={d.logo_url} alt="" className="size-4 rounded object-contain" onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />
+                  ) : (
+                    <Building2 className="size-3" />
+                  )}
+                  {d.name}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
         <div className="space-y-1.5">
           <Label>Contact person</Label>
