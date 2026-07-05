@@ -26,6 +26,9 @@ export function Header() {
           <Link to="/projects" className="text-foreground/70 hover:text-foreground [&.active]:text-foreground">
             Projects
           </Link>
+          <Link to="/companies" className="text-foreground/70 hover:text-foreground [&.active]:text-foreground">
+            Directory
+          </Link>
           {user && (
             <>
               <Link to="/threads" className="text-foreground/70 hover:text-foreground [&.active]:text-foreground">

@@ -14,6 +14,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProjectsIndexRouteImport } from './routes/projects.index'
+import { Route as CompaniesIndexRouteImport } from './routes/companies.index'
 import { Route as ProjectsIdRouteImport } from './routes/projects.$id'
 import { Route as AuthenticatedAccountRouteImport } from './routes/_authenticated/account'
 import { Route as AuthenticatedThreadsIndexRouteImport } from './routes/_authenticated/threads.index'
@@ -45,6 +46,11 @@ const IndexRoute = IndexRouteImport.update({
 const ProjectsIndexRoute = ProjectsIndexRouteImport.update({
   id: '/projects/',
   path: '/projects/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompaniesIndexRoute = CompaniesIndexRouteImport.update({
+  id: '/companies/',
+  path: '/companies/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProjectsIdRoute = ProjectsIdRouteImport.update({
@@ -98,6 +104,7 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/account': typeof AuthenticatedAccountRoute
   '/projects/$id': typeof ProjectsIdRoute
+  '/companies/': typeof CompaniesIndexRoute
   '/projects/': typeof ProjectsIndexRoute
   '/messages/$userId': typeof AuthenticatedMessagesUserIdRoute
   '/projects/new': typeof AuthenticatedProjectsNewRoute
@@ -112,6 +119,7 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/account': typeof AuthenticatedAccountRoute
   '/projects/$id': typeof ProjectsIdRoute
+  '/companies': typeof CompaniesIndexRoute
   '/projects': typeof ProjectsIndexRoute
   '/messages/$userId': typeof AuthenticatedMessagesUserIdRoute
   '/projects/new': typeof AuthenticatedProjectsNewRoute
@@ -128,6 +136,7 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/_authenticated/account': typeof AuthenticatedAccountRoute
   '/projects/$id': typeof ProjectsIdRoute
+  '/companies/': typeof CompaniesIndexRoute
   '/projects/': typeof ProjectsIndexRoute
   '/_authenticated/messages/$userId': typeof AuthenticatedMessagesUserIdRoute
   '/_authenticated/projects/new': typeof AuthenticatedProjectsNewRoute
@@ -144,6 +153,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/account'
     | '/projects/$id'
+    | '/companies/'
     | '/projects/'
     | '/messages/$userId'
     | '/projects/new'
@@ -158,6 +168,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/account'
     | '/projects/$id'
+    | '/companies'
     | '/projects'
     | '/messages/$userId'
     | '/projects/new'
@@ -173,6 +184,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/_authenticated/account'
     | '/projects/$id'
+    | '/companies/'
     | '/projects/'
     | '/_authenticated/messages/$userId'
     | '/_authenticated/projects/new'
@@ -188,6 +200,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ProjectsIdRoute: typeof ProjectsIdRoute
+  CompaniesIndexRoute: typeof CompaniesIndexRoute
   ProjectsIndexRoute: typeof ProjectsIndexRoute
 }
 
@@ -226,6 +239,13 @@ declare module '@tanstack/react-router' {
       path: '/projects'
       fullPath: '/projects/'
       preLoaderRoute: typeof ProjectsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/companies/': {
+      id: '/companies/'
+      path: '/companies'
+      fullPath: '/companies/'
+      preLoaderRoute: typeof CompaniesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/projects/$id': {
@@ -316,6 +336,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   ProjectsIdRoute: ProjectsIdRoute,
+  CompaniesIndexRoute: CompaniesIndexRoute,
   ProjectsIndexRoute: ProjectsIndexRoute,
 }
 export const routeTree = rootRouteImport
