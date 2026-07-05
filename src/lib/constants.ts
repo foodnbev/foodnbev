@@ -63,3 +63,15 @@ export const STATUS_TONE: Record<ProjectStatus, string> = {
   completed: "fnb-chip-ink",
   unknown: "fnb-chip",
 };
+
+export const COMPANY_CATEGORY_LABEL = {
+  architect: "Architect",
+  general_contractor: "General contractor",
+  flooring: "Flooring",
+  groundworks: "Groundworks",
+  other: "Other",
+} as const;
+export type CompanyCategory = keyof typeof COMPANY_CATEGORY_LABEL;
+export const COMPANY_CATEGORY_ORDER: CompanyCategory[] = [
+  "architect", "general_contractor", "flooring", "groundworks", "other",
+];
