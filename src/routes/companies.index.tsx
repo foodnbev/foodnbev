@@ -114,14 +114,25 @@ function FilterChip({ active, onClick, label }: { active: boolean; onClick: () =
 }
 
 function CompanyCard({ c }: { c: Company }) {
-  const [broken, setBroken] = useState(false);
   const host = c.website ? safeHost(c.website) : null;
+  const logoDevKey = import.meta.env.VITE_LOVABLE_CONNECTOR_LOGO_DEV_API_KEY as string | undefined;
+  const sources: string[] = [];
+  if (host && logoDevKey) sources.push(`https://img.logo.dev/${host}?token=${logoDevKey}&size=128&format=png&fallback=404`);
+  if (c.logo_url) sources.push(c.logo_url);
+  const [idx, setIdx] = useState(0);
+  const src = sources[idx];
   return (
     <li className="fnb-card group flex flex-col gap-3 p-5">
       <div className="flex items-center gap-3">
-        <div className="flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-lg border bg-muted/40">
-          {c.logo_url && !broken ? (
-            <img src={c.logo_url} alt={`${c.name} logo`} className="h-full w-full object-contain p-1.5" onError={() => setBroken(true)} loading="lazy" />
+        <div className="flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-lg border bg-white">
+          {src ? (
+            <img
+              src={src}
+              alt={`${c.name} logo`}
+              className="h-full w-full object-contain p-1.5"
+              onError={() => setIdx((i) => i + 1)}
+              loading="lazy"
+            />
           ) : (
             <Building2 className="size-6 text-muted-foreground" />
           )}
