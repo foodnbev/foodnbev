@@ -48,7 +48,7 @@ function ProjectsPage() {
           status: applied.status,
           work_type: applied.work_type,
           category: applied.category,
-          limit: 48,
+          limit: 200,
         },
       }),
   });
