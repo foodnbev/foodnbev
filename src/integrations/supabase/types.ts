@@ -333,6 +333,155 @@ export type Database = {
         }
         Relationships: []
       }
+      rfq_questions: {
+        Row: {
+          answer: string | null
+          answered_at: string | null
+          asker_id: string
+          created_at: string
+          id: string
+          question: string
+          rfq_id: string
+        }
+        Insert: {
+          answer?: string | null
+          answered_at?: string | null
+          asker_id: string
+          created_at?: string
+          id?: string
+          question: string
+          rfq_id: string
+        }
+        Update: {
+          answer?: string | null
+          answered_at?: string | null
+          asker_id?: string
+          created_at?: string
+          id?: string
+          question?: string
+          rfq_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rfq_questions_rfq_id_fkey"
+            columns: ["rfq_id"]
+            isOneToOne: false
+            referencedRelation: "rfqs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rfq_quotes: {
+        Row: {
+          amend_count: number
+          amount: number | null
+          anonymous: boolean
+          body: string
+          company_id: string | null
+          created_at: string
+          id: string
+          rfq_id: string
+          submitter_id: string
+          updated_at: string
+        }
+        Insert: {
+          amend_count?: number
+          amount?: number | null
+          anonymous?: boolean
+          body: string
+          company_id?: string | null
+          created_at?: string
+          id?: string
+          rfq_id: string
+          submitter_id: string
+          updated_at?: string
+        }
+        Update: {
+          amend_count?: number
+          amount?: number | null
+          anonymous?: boolean
+          body?: string
+          company_id?: string | null
+          created_at?: string
+          id?: string
+          rfq_id?: string
+          submitter_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rfq_quotes_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "rfq_quotes_rfq_id_fkey"
+            columns: ["rfq_id"]
+            isOneToOne: false
+            referencedRelation: "rfqs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rfqs: {
+        Row: {
+          anonymous: boolean
+          categories: Database["public"]["Enums"]["party_category"][]
+          closed_at: string | null
+          company_id: string | null
+          created_at: string
+          created_by: string
+          deadline: string | null
+          description: string
+          id: string
+          project_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          anonymous?: boolean
+          categories?: Database["public"]["Enums"]["party_category"][]
+          closed_at?: string | null
+          company_id?: string | null
+          created_at?: string
+          created_by: string
+          deadline?: string | null
+          description: string
+          id?: string
+          project_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          anonymous?: boolean
+          categories?: Database["public"]["Enums"]["party_category"][]
+          closed_at?: string | null
+          company_id?: string | null
+          created_at?: string
+          created_by?: string
+          deadline?: string | null
+          description?: string
+          id?: string
+          project_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rfqs_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "rfqs_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       thread_messages: {
         Row: {
           body: string
@@ -444,6 +593,7 @@ export type Database = {
         Returns: boolean
       }
       project_completeness: { Args: { p_id: string }; Returns: number }
+      rfq_is_open: { Args: { _id: string }; Returns: boolean }
     }
     Enums: {
       app_role: "admin" | "user"
