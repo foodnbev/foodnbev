@@ -16,6 +16,7 @@ import { useEffect } from "react";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({ meta: [{ title: "Sign in — food n bev" }, { name: "description", content: "Sign in or create a food n bev account to add, edit and rate F&B construction projects." }] }),
+  validateSearch: z.object({ redirect: z.string().optional() }).optional(),
   component: AuthPage,
 });
 
