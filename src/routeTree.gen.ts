@@ -18,9 +18,12 @@ import { Route as CompaniesIndexRouteImport } from './routes/companies.index'
 import { Route as ProjectsIdRouteImport } from './routes/projects.$id'
 import { Route as AuthenticatedAccountRouteImport } from './routes/_authenticated/account'
 import { Route as AuthenticatedThreadsIndexRouteImport } from './routes/_authenticated/threads.index'
+import { Route as AuthenticatedRfqsIndexRouteImport } from './routes/_authenticated/rfqs.index'
 import { Route as AuthenticatedMessagesIndexRouteImport } from './routes/_authenticated/messages.index'
 import { Route as AuthenticatedThreadsNewRouteImport } from './routes/_authenticated/threads.new'
 import { Route as AuthenticatedThreadsIdRouteImport } from './routes/_authenticated/threads.$id'
+import { Route as AuthenticatedRfqsNewRouteImport } from './routes/_authenticated/rfqs.new'
+import { Route as AuthenticatedRfqsIdRouteImport } from './routes/_authenticated/rfqs.$id'
 import { Route as AuthenticatedProjectsNewRouteImport } from './routes/_authenticated/projects.new'
 import { Route as AuthenticatedMessagesUserIdRouteImport } from './routes/_authenticated/messages.$userId'
 
@@ -69,6 +72,11 @@ const AuthenticatedThreadsIndexRoute =
     path: '/threads/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedRfqsIndexRoute = AuthenticatedRfqsIndexRouteImport.update({
+  id: '/rfqs/',
+  path: '/rfqs/',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedMessagesIndexRoute =
   AuthenticatedMessagesIndexRouteImport.update({
     id: '/messages/',
@@ -83,6 +91,16 @@ const AuthenticatedThreadsNewRoute = AuthenticatedThreadsNewRouteImport.update({
 const AuthenticatedThreadsIdRoute = AuthenticatedThreadsIdRouteImport.update({
   id: '/threads/$id',
   path: '/threads/$id',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedRfqsNewRoute = AuthenticatedRfqsNewRouteImport.update({
+  id: '/rfqs/new',
+  path: '/rfqs/new',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedRfqsIdRoute = AuthenticatedRfqsIdRouteImport.update({
+  id: '/rfqs/$id',
+  path: '/rfqs/$id',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedProjectsNewRoute =
@@ -108,9 +126,12 @@ export interface FileRoutesByFullPath {
   '/projects/': typeof ProjectsIndexRoute
   '/messages/$userId': typeof AuthenticatedMessagesUserIdRoute
   '/projects/new': typeof AuthenticatedProjectsNewRoute
+  '/rfqs/$id': typeof AuthenticatedRfqsIdRoute
+  '/rfqs/new': typeof AuthenticatedRfqsNewRoute
   '/threads/$id': typeof AuthenticatedThreadsIdRoute
   '/threads/new': typeof AuthenticatedThreadsNewRoute
   '/messages/': typeof AuthenticatedMessagesIndexRoute
+  '/rfqs/': typeof AuthenticatedRfqsIndexRoute
   '/threads/': typeof AuthenticatedThreadsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -123,9 +144,12 @@ export interface FileRoutesByTo {
   '/projects': typeof ProjectsIndexRoute
   '/messages/$userId': typeof AuthenticatedMessagesUserIdRoute
   '/projects/new': typeof AuthenticatedProjectsNewRoute
+  '/rfqs/$id': typeof AuthenticatedRfqsIdRoute
+  '/rfqs/new': typeof AuthenticatedRfqsNewRoute
   '/threads/$id': typeof AuthenticatedThreadsIdRoute
   '/threads/new': typeof AuthenticatedThreadsNewRoute
   '/messages': typeof AuthenticatedMessagesIndexRoute
+  '/rfqs': typeof AuthenticatedRfqsIndexRoute
   '/threads': typeof AuthenticatedThreadsIndexRoute
 }
 export interface FileRoutesById {
@@ -140,9 +164,12 @@ export interface FileRoutesById {
   '/projects/': typeof ProjectsIndexRoute
   '/_authenticated/messages/$userId': typeof AuthenticatedMessagesUserIdRoute
   '/_authenticated/projects/new': typeof AuthenticatedProjectsNewRoute
+  '/_authenticated/rfqs/$id': typeof AuthenticatedRfqsIdRoute
+  '/_authenticated/rfqs/new': typeof AuthenticatedRfqsNewRoute
   '/_authenticated/threads/$id': typeof AuthenticatedThreadsIdRoute
   '/_authenticated/threads/new': typeof AuthenticatedThreadsNewRoute
   '/_authenticated/messages/': typeof AuthenticatedMessagesIndexRoute
+  '/_authenticated/rfqs/': typeof AuthenticatedRfqsIndexRoute
   '/_authenticated/threads/': typeof AuthenticatedThreadsIndexRoute
 }
 export interface FileRouteTypes {
@@ -157,9 +184,12 @@ export interface FileRouteTypes {
     | '/projects/'
     | '/messages/$userId'
     | '/projects/new'
+    | '/rfqs/$id'
+    | '/rfqs/new'
     | '/threads/$id'
     | '/threads/new'
     | '/messages/'
+    | '/rfqs/'
     | '/threads/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -172,9 +202,12 @@ export interface FileRouteTypes {
     | '/projects'
     | '/messages/$userId'
     | '/projects/new'
+    | '/rfqs/$id'
+    | '/rfqs/new'
     | '/threads/$id'
     | '/threads/new'
     | '/messages'
+    | '/rfqs'
     | '/threads'
   id:
     | '__root__'
@@ -188,9 +221,12 @@ export interface FileRouteTypes {
     | '/projects/'
     | '/_authenticated/messages/$userId'
     | '/_authenticated/projects/new'
+    | '/_authenticated/rfqs/$id'
+    | '/_authenticated/rfqs/new'
     | '/_authenticated/threads/$id'
     | '/_authenticated/threads/new'
     | '/_authenticated/messages/'
+    | '/_authenticated/rfqs/'
     | '/_authenticated/threads/'
   fileRoutesById: FileRoutesById
 }
@@ -269,6 +305,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedThreadsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/rfqs/': {
+      id: '/_authenticated/rfqs/'
+      path: '/rfqs'
+      fullPath: '/rfqs/'
+      preLoaderRoute: typeof AuthenticatedRfqsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/messages/': {
       id: '/_authenticated/messages/'
       path: '/messages'
@@ -288,6 +331,20 @@ declare module '@tanstack/react-router' {
       path: '/threads/$id'
       fullPath: '/threads/$id'
       preLoaderRoute: typeof AuthenticatedThreadsIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/rfqs/new': {
+      id: '/_authenticated/rfqs/new'
+      path: '/rfqs/new'
+      fullPath: '/rfqs/new'
+      preLoaderRoute: typeof AuthenticatedRfqsNewRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/rfqs/$id': {
+      id: '/_authenticated/rfqs/$id'
+      path: '/rfqs/$id'
+      fullPath: '/rfqs/$id'
+      preLoaderRoute: typeof AuthenticatedRfqsIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/projects/new': {
@@ -311,9 +368,12 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAccountRoute: typeof AuthenticatedAccountRoute
   AuthenticatedMessagesUserIdRoute: typeof AuthenticatedMessagesUserIdRoute
   AuthenticatedProjectsNewRoute: typeof AuthenticatedProjectsNewRoute
+  AuthenticatedRfqsIdRoute: typeof AuthenticatedRfqsIdRoute
+  AuthenticatedRfqsNewRoute: typeof AuthenticatedRfqsNewRoute
   AuthenticatedThreadsIdRoute: typeof AuthenticatedThreadsIdRoute
   AuthenticatedThreadsNewRoute: typeof AuthenticatedThreadsNewRoute
   AuthenticatedMessagesIndexRoute: typeof AuthenticatedMessagesIndexRoute
+  AuthenticatedRfqsIndexRoute: typeof AuthenticatedRfqsIndexRoute
   AuthenticatedThreadsIndexRoute: typeof AuthenticatedThreadsIndexRoute
 }
 
@@ -321,9 +381,12 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAccountRoute: AuthenticatedAccountRoute,
   AuthenticatedMessagesUserIdRoute: AuthenticatedMessagesUserIdRoute,
   AuthenticatedProjectsNewRoute: AuthenticatedProjectsNewRoute,
+  AuthenticatedRfqsIdRoute: AuthenticatedRfqsIdRoute,
+  AuthenticatedRfqsNewRoute: AuthenticatedRfqsNewRoute,
   AuthenticatedThreadsIdRoute: AuthenticatedThreadsIdRoute,
   AuthenticatedThreadsNewRoute: AuthenticatedThreadsNewRoute,
   AuthenticatedMessagesIndexRoute: AuthenticatedMessagesIndexRoute,
+  AuthenticatedRfqsIndexRoute: AuthenticatedRfqsIndexRoute,
   AuthenticatedThreadsIndexRoute: AuthenticatedThreadsIndexRoute,
 }
 
