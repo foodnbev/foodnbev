@@ -30,6 +30,11 @@ export function Header() {
             Directory
           </Link>
           {user && (
+            <Link to="/rfqs" className="text-foreground/70 hover:text-foreground [&.active]:text-foreground">
+              RFQs
+            </Link>
+          )}
+          {user && (
             <>
               <Link to="/threads" className="text-foreground/70 hover:text-foreground [&.active]:text-foreground">
                 Discussions
