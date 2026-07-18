@@ -29,11 +29,13 @@ export function Header() {
           <Link to="/companies" className="text-foreground/70 hover:text-foreground [&.active]:text-foreground">
             Directory
           </Link>
-          {user && (
-            <Link to="/rfqs" className="text-foreground/70 hover:text-foreground [&.active]:text-foreground">
-              RFQs
-            </Link>
-          )}
+          <Link
+            to={user ? "/rfqs" : "/auth"}
+            search={user ? undefined : { redirect: "/rfqs" }}
+            className="font-bold text-foreground hover:text-foreground [&.active]:text-foreground"
+          >
+            RFQs
+          </Link>
           {user && (
             <>
               <Link to="/threads" className="text-foreground/70 hover:text-foreground [&.active]:text-foreground">
