@@ -31,7 +31,9 @@ const SignUpSchema = z.object({
 function AuthPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
-  useEffect(() => { if (user) navigate({ to: "/", replace: true }); }, [user, navigate]);
+  const search = useSearch({ from: "/auth" });
+  const redirectTo = typeof search.redirect === "string" ? search.redirect : "/";
+  useEffect(() => { if (user) navigate({ to: redirectTo, replace: true }); }, [user, navigate, redirectTo]);
 
   return (
     <AppShell>
