@@ -21,7 +21,7 @@ const SearchSchema = z.object({
       "consultant","flooring","groundworks","drainage","other",
     ])
     .optional(),
-  limit: z.number().int().min(1).max(200).optional().default(24),
+  limit: z.number().int().min(1).max(10000).optional().default(10000),
 });
 
 export const searchProjects = createServerFn({ method: "GET" })
