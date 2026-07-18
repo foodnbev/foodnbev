@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, useSearch, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { z } from "zod";
 import { toast } from "sonner";
@@ -16,6 +16,7 @@ import { useEffect } from "react";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({ meta: [{ title: "Sign in — food n bev" }, { name: "description", content: "Sign in or create a food n bev account to add, edit and rate F&B construction projects." }] }),
+  validateSearch: z.object({ redirect: z.string().optional() }).optional(),
   component: AuthPage,
 });
 
@@ -31,7 +32,9 @@ const SignUpSchema = z.object({
 function AuthPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
-  useEffect(() => { if (user) navigate({ to: "/", replace: true }); }, [user, navigate]);
+  const search = useSearch({ from: "/auth" });
+  const redirectTo = typeof search.redirect === "string" ? search.redirect : "/";
+  useEffect(() => { if (user) navigate({ to: redirectTo, replace: true }); }, [user, navigate, redirectTo]);
 
   return (
     <AppShell>
