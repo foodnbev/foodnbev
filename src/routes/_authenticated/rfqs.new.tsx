@@ -12,7 +12,7 @@ import { PARTY_CATEGORY_LABEL, PARTY_CATEGORY_ORDER, type PartyCategory } from "
 import { useAuth } from "@/hooks/useAuth";
 
 export const Route = createFileRoute("/_authenticated/rfqs/new")({
-  head: () => ({ meta: [{ title: "New RFQ — food n bev" }] }),
+  head: () => ({ meta: [{ title: "New anonymous quote request — food n bev" }] }),
   component: NewRfq,
 });
 
@@ -87,9 +87,9 @@ function NewRfq() {
   return (
     <AppShell>
       <div className="mx-auto max-w-2xl px-4 py-10 sm:px-6">
-        <h1 className="text-3xl font-semibold tracking-tight">Post an RFQ</h1>
+        <h1 className="text-3xl font-semibold tracking-tight">Post a quote request</h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          Only signed-in members can see and respond. Each responder may ask <strong>one question</strong>, submit <strong>one quote</strong>, and amend it <strong>once</strong>. RFQs close automatically after 2 months.
+          Only signed-in members can see and respond. Each responder may ask <strong>one question</strong>, submit <strong>one quote</strong>, and amend it <strong>once</strong>. Requests close automatically after 2 months.
         </p>
 
         <form onSubmit={submit} className="mt-6 space-y-5">

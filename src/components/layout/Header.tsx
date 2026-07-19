@@ -30,11 +30,10 @@ export function Header() {
             Directory
           </Link>
           <Link
-            to={user ? "/rfqs" : "/auth"}
-            search={user ? undefined : { redirect: "/rfqs" }}
+            to="/rfqs"
             className="font-bold text-foreground hover:text-foreground [&.active]:text-foreground"
           >
-            RFQs
+            Anonymous Quotes
           </Link>
           {user && (
             <>
