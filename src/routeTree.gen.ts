@@ -13,12 +13,12 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as RfqsIndexRouteImport } from './routes/rfqs.index'
 import { Route as ProjectsIndexRouteImport } from './routes/projects.index'
 import { Route as CompaniesIndexRouteImport } from './routes/companies.index'
 import { Route as ProjectsIdRouteImport } from './routes/projects.$id'
 import { Route as AuthenticatedAccountRouteImport } from './routes/_authenticated/account'
 import { Route as AuthenticatedThreadsIndexRouteImport } from './routes/_authenticated/threads.index'
-import { Route as AuthenticatedRfqsIndexRouteImport } from './routes/_authenticated/rfqs.index'
 import { Route as AuthenticatedMessagesIndexRouteImport } from './routes/_authenticated/messages.index'
 import { Route as AuthenticatedThreadsNewRouteImport } from './routes/_authenticated/threads.new'
 import { Route as AuthenticatedThreadsIdRouteImport } from './routes/_authenticated/threads.$id'
@@ -44,6 +44,11 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RfqsIndexRoute = RfqsIndexRouteImport.update({
+  id: '/rfqs/',
+  path: '/rfqs/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProjectsIndexRoute = ProjectsIndexRouteImport.update({
@@ -72,11 +77,6 @@ const AuthenticatedThreadsIndexRoute =
     path: '/threads/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedRfqsIndexRoute = AuthenticatedRfqsIndexRouteImport.update({
-  id: '/rfqs/',
-  path: '/rfqs/',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
 const AuthenticatedMessagesIndexRoute =
   AuthenticatedMessagesIndexRouteImport.update({
     id: '/messages/',
@@ -124,6 +124,7 @@ export interface FileRoutesByFullPath {
   '/projects/$id': typeof ProjectsIdRoute
   '/companies/': typeof CompaniesIndexRoute
   '/projects/': typeof ProjectsIndexRoute
+  '/rfqs/': typeof RfqsIndexRoute
   '/messages/$userId': typeof AuthenticatedMessagesUserIdRoute
   '/projects/new': typeof AuthenticatedProjectsNewRoute
   '/rfqs/$id': typeof AuthenticatedRfqsIdRoute
@@ -131,7 +132,6 @@ export interface FileRoutesByFullPath {
   '/threads/$id': typeof AuthenticatedThreadsIdRoute
   '/threads/new': typeof AuthenticatedThreadsNewRoute
   '/messages/': typeof AuthenticatedMessagesIndexRoute
-  '/rfqs/': typeof AuthenticatedRfqsIndexRoute
   '/threads/': typeof AuthenticatedThreadsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -142,6 +142,7 @@ export interface FileRoutesByTo {
   '/projects/$id': typeof ProjectsIdRoute
   '/companies': typeof CompaniesIndexRoute
   '/projects': typeof ProjectsIndexRoute
+  '/rfqs': typeof RfqsIndexRoute
   '/messages/$userId': typeof AuthenticatedMessagesUserIdRoute
   '/projects/new': typeof AuthenticatedProjectsNewRoute
   '/rfqs/$id': typeof AuthenticatedRfqsIdRoute
@@ -149,7 +150,6 @@ export interface FileRoutesByTo {
   '/threads/$id': typeof AuthenticatedThreadsIdRoute
   '/threads/new': typeof AuthenticatedThreadsNewRoute
   '/messages': typeof AuthenticatedMessagesIndexRoute
-  '/rfqs': typeof AuthenticatedRfqsIndexRoute
   '/threads': typeof AuthenticatedThreadsIndexRoute
 }
 export interface FileRoutesById {
@@ -162,6 +162,7 @@ export interface FileRoutesById {
   '/projects/$id': typeof ProjectsIdRoute
   '/companies/': typeof CompaniesIndexRoute
   '/projects/': typeof ProjectsIndexRoute
+  '/rfqs/': typeof RfqsIndexRoute
   '/_authenticated/messages/$userId': typeof AuthenticatedMessagesUserIdRoute
   '/_authenticated/projects/new': typeof AuthenticatedProjectsNewRoute
   '/_authenticated/rfqs/$id': typeof AuthenticatedRfqsIdRoute
@@ -169,7 +170,6 @@ export interface FileRoutesById {
   '/_authenticated/threads/$id': typeof AuthenticatedThreadsIdRoute
   '/_authenticated/threads/new': typeof AuthenticatedThreadsNewRoute
   '/_authenticated/messages/': typeof AuthenticatedMessagesIndexRoute
-  '/_authenticated/rfqs/': typeof AuthenticatedRfqsIndexRoute
   '/_authenticated/threads/': typeof AuthenticatedThreadsIndexRoute
 }
 export interface FileRouteTypes {
@@ -182,6 +182,7 @@ export interface FileRouteTypes {
     | '/projects/$id'
     | '/companies/'
     | '/projects/'
+    | '/rfqs/'
     | '/messages/$userId'
     | '/projects/new'
     | '/rfqs/$id'
@@ -189,7 +190,6 @@ export interface FileRouteTypes {
     | '/threads/$id'
     | '/threads/new'
     | '/messages/'
-    | '/rfqs/'
     | '/threads/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -200,6 +200,7 @@ export interface FileRouteTypes {
     | '/projects/$id'
     | '/companies'
     | '/projects'
+    | '/rfqs'
     | '/messages/$userId'
     | '/projects/new'
     | '/rfqs/$id'
@@ -207,7 +208,6 @@ export interface FileRouteTypes {
     | '/threads/$id'
     | '/threads/new'
     | '/messages'
-    | '/rfqs'
     | '/threads'
   id:
     | '__root__'
@@ -219,6 +219,7 @@ export interface FileRouteTypes {
     | '/projects/$id'
     | '/companies/'
     | '/projects/'
+    | '/rfqs/'
     | '/_authenticated/messages/$userId'
     | '/_authenticated/projects/new'
     | '/_authenticated/rfqs/$id'
@@ -226,7 +227,6 @@ export interface FileRouteTypes {
     | '/_authenticated/threads/$id'
     | '/_authenticated/threads/new'
     | '/_authenticated/messages/'
-    | '/_authenticated/rfqs/'
     | '/_authenticated/threads/'
   fileRoutesById: FileRoutesById
 }
@@ -238,6 +238,7 @@ export interface RootRouteChildren {
   ProjectsIdRoute: typeof ProjectsIdRoute
   CompaniesIndexRoute: typeof CompaniesIndexRoute
   ProjectsIndexRoute: typeof ProjectsIndexRoute
+  RfqsIndexRoute: typeof RfqsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -268,6 +269,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rfqs/': {
+      id: '/rfqs/'
+      path: '/rfqs'
+      fullPath: '/rfqs/'
+      preLoaderRoute: typeof RfqsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/projects/': {
@@ -303,13 +311,6 @@ declare module '@tanstack/react-router' {
       path: '/threads'
       fullPath: '/threads/'
       preLoaderRoute: typeof AuthenticatedThreadsIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/rfqs/': {
-      id: '/_authenticated/rfqs/'
-      path: '/rfqs'
-      fullPath: '/rfqs/'
-      preLoaderRoute: typeof AuthenticatedRfqsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/messages/': {
@@ -373,7 +374,6 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedThreadsIdRoute: typeof AuthenticatedThreadsIdRoute
   AuthenticatedThreadsNewRoute: typeof AuthenticatedThreadsNewRoute
   AuthenticatedMessagesIndexRoute: typeof AuthenticatedMessagesIndexRoute
-  AuthenticatedRfqsIndexRoute: typeof AuthenticatedRfqsIndexRoute
   AuthenticatedThreadsIndexRoute: typeof AuthenticatedThreadsIndexRoute
 }
 
@@ -386,7 +386,6 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedThreadsIdRoute: AuthenticatedThreadsIdRoute,
   AuthenticatedThreadsNewRoute: AuthenticatedThreadsNewRoute,
   AuthenticatedMessagesIndexRoute: AuthenticatedMessagesIndexRoute,
-  AuthenticatedRfqsIndexRoute: AuthenticatedRfqsIndexRoute,
   AuthenticatedThreadsIndexRoute: AuthenticatedThreadsIndexRoute,
 }
 
@@ -401,17 +400,8 @@ const rootRouteChildren: RootRouteChildren = {
   ProjectsIdRoute: ProjectsIdRoute,
   CompaniesIndexRoute: CompaniesIndexRoute,
   ProjectsIndexRoute: ProjectsIndexRoute,
+  RfqsIndexRoute: RfqsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

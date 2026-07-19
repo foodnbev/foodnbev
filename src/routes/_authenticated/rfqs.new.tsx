@@ -12,7 +12,7 @@ import { PARTY_CATEGORY_LABEL, PARTY_CATEGORY_ORDER, type PartyCategory } from "
 import { useAuth } from "@/hooks/useAuth";
 
 export const Route = createFileRoute("/_authenticated/rfqs/new")({
-  head: () => ({ meta: [{ title: "New RFQ — food n bev" }] }),
+  head: () => ({ meta: [{ title: "New anonymous quote request — food n bev" }] }),
   component: NewRfq,
 });
 
