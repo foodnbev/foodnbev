@@ -1,0 +1,178 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ============================================================
+ * Food n Bev — design system
+ * Palette: #eab676 (sand), #abdbe3 (teal), black, white
+ * Editorial, industrial, clean. No hardcoded hex in components.
+ * ========================================================== */
+
+@theme inline {
+  --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Outfit", ui-sans-serif, system-ui, sans-serif;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --color-sand: var(--sand);
+  --color-sand-foreground: var(--sand-foreground);
+  --color-teal: var(--teal);
+  --color-teal-foreground: var(--teal-foreground);
+  --color-ink: var(--ink);
+}
+
+:root {
+  --radius: 0.75rem;
+
+  /* Brand */
+  --sand: oklch(0.808 0.108 70);          /* #eab676 */
+  --sand-foreground: oklch(0.18 0.02 60);
+  --teal: oklch(0.866 0.045 215);         /* #abdbe3 */
+  --teal-foreground: oklch(0.22 0.04 230);
+  --ink: oklch(0.16 0 0);
+
+  /* Surfaces */
+  --background: oklch(0.995 0.003 80);     /* warm off-white */
+  --foreground: oklch(0.16 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.16 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.16 0 0);
+
+  /* Primary = sand (brand action) */
+  --primary: oklch(0.808 0.108 70);
+  --primary-foreground: oklch(0.18 0.02 60);
+
+  /* Secondary = teal (info) */
+  --secondary: oklch(0.866 0.045 215);
+  --secondary-foreground: oklch(0.22 0.04 230);
+
+  --muted: oklch(0.965 0.005 80);
+  --muted-foreground: oklch(0.46 0.01 60);
+  --accent: oklch(0.945 0.03 70);
+  --accent-foreground: oklch(0.18 0.02 60);
+  --destructive: oklch(0.58 0.22 27);
+  --destructive-foreground: oklch(0.99 0 0);
+  --border: oklch(0.91 0.008 70);
+  --input: oklch(0.91 0.008 70);
+  --ring: oklch(0.808 0.108 70);
+
+  --chart-1: oklch(0.808 0.108 70);
+  --chart-2: oklch(0.866 0.045 215);
+  --chart-3: oklch(0.30 0 0);
+  --chart-4: oklch(0.66 0.16 50);
+  --chart-5: oklch(0.55 0.14 230);
+
+  --sidebar: oklch(0.99 0.003 80);
+  --sidebar-foreground: oklch(0.16 0 0);
+  --sidebar-primary: oklch(0.808 0.108 70);
+  --sidebar-primary-foreground: oklch(0.18 0.02 60);
+  --sidebar-accent: oklch(0.945 0.03 70);
+  --sidebar-accent-foreground: oklch(0.18 0.02 60);
+  --sidebar-border: oklch(0.91 0.008 70);
+  --sidebar-ring: oklch(0.808 0.108 70);
+}
+
+.dark {
+  --background: oklch(0.14 0 0);
+  --foreground: oklch(0.98 0 0);
+  --card: oklch(0.19 0 0);
+  --card-foreground: oklch(0.98 0 0);
+  --popover: oklch(0.19 0 0);
+  --popover-foreground: oklch(0.98 0 0);
+  --primary: oklch(0.808 0.108 70);
+  --primary-foreground: oklch(0.16 0.02 60);
+  --secondary: oklch(0.866 0.045 215);
+  --secondary-foreground: oklch(0.18 0.04 230);
+  --muted: oklch(0.24 0 0);
+  --muted-foreground: oklch(0.72 0 0);
+  --accent: oklch(0.24 0.02 70);
+  --accent-foreground: oklch(0.98 0 0);
+  --destructive: oklch(0.65 0.2 25);
+  --destructive-foreground: oklch(0.99 0 0);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.808 0.108 70);
+  --sidebar: oklch(0.16 0 0);
+  --sidebar-foreground: oklch(0.98 0 0);
+  --sidebar-primary: oklch(0.808 0.108 70);
+  --sidebar-primary-foreground: oklch(0.16 0.02 60);
+  --sidebar-accent: oklch(0.24 0.02 70);
+  --sidebar-accent-foreground: oklch(0.98 0 0);
+  --sidebar-border: oklch(1 0 0 / 12%);
+  --sidebar-ring: oklch(0.808 0.108 70);
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+  html, body { font-family: var(--font-sans); }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-feature-settings: "ss01","cv11";
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 { font-family: var(--font-display); letter-spacing: -0.015em; }
+}
+
+@layer components {
+  .fnb-chip {
+    display: inline-flex; align-items: center; gap: .35rem;
+    padding: .15rem .55rem; border-radius: 999px;
+    font-size: .72rem; font-weight: 500;
+    background: var(--color-muted); color: var(--color-muted-foreground);
+    border: 1px solid var(--color-border);
+  }
+  .fnb-chip-sand { background: color-mix(in oklch, var(--sand) 30%, white); color: var(--sand-foreground); border-color: color-mix(in oklch, var(--sand) 50%, white); }
+  .fnb-chip-teal { background: color-mix(in oklch, var(--teal) 35%, white); color: var(--teal-foreground); border-color: color-mix(in oklch, var(--teal) 55%, white); }
+  .fnb-chip-ink  { background: var(--ink); color: white; border-color: var(--ink); }
+
+  .fnb-card {
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    transition: box-shadow .15s ease, transform .15s ease;
+  }
+  .fnb-card:hover { box-shadow: 0 8px 24px -12px rgb(0 0 0 / .12); }
+}
