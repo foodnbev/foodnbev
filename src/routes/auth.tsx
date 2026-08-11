@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
-import logoAsset from "@/assets/foodnbev-logo.png.asset.json";
+import logoAsset from "@/assets/foodnbev-logo.png";
 import { useAuth } from "@/hooks/useAuth";
 import { useEffect } from "react";
 
@@ -39,7 +39,7 @@ function AuthPage() {
   return (
     <AppShell>
       <div className="mx-auto flex max-w-md flex-col items-center px-4 py-16">
-        <img src={logoAsset.url} alt="food n bev" className="h-8 w-auto" />
+        <img src={logoAsset} alt="food n bev" className="h-8 w-auto" />
         <h1 className="mt-6 text-center text-2xl font-semibold tracking-tight">Welcome</h1>
         <p className="mt-2 text-center text-sm text-muted-foreground">
           Join the community to add projects, contractor info and ratings.
@@ -172,3 +172,4 @@ function Field({ label, id, children }: { label: string; id: string; children: R
     </div>
   );
 }
+

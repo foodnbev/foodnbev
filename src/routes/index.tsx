@@ -6,7 +6,7 @@ import { ProjectCard } from "@/components/projects/ProjectCard";
 import { searchProjects } from "@/lib/projects.functions";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Search, Sparkles } from "lucide-react";
-import logoAsset from "@/assets/foodnbev-logo.png.asset.json";
+import logoAsset from "@/assets/foodnbev-logo.png";
 
 const latestProjects = queryOptions({
   queryKey: ["projects", "latest"],
@@ -68,7 +68,7 @@ function Hero() {
         </div>
         <div className="relative hidden items-center justify-center md:flex">
           <div className="rounded-3xl border-2 border-[var(--sand)] bg-white/90 p-12 shadow-lg shadow-black/5 backdrop-blur">
-            <img src={logoAsset.url} alt="food n bev logo" className="h-32 w-auto" />
+            <img src={logoAsset} alt="food n bev logo" className="h-32 w-auto" />
           </div>
         </div>
       </div>
@@ -127,3 +127,4 @@ function ValueProps() {
     </section>
   );
 }
+

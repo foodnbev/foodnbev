@@ -30,3 +30,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+.env
+
+# Local Supabase migration backups
+foodnbev_supabase_data.sql
+foodnbev_supabase_schema.sql
+
+supabase/.temp/

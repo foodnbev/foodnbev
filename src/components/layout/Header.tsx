@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import logoAsset from "@/assets/foodnbev-logo.png.asset.json";
+import logoAsset from "@/assets/foodnbev-logo.png";
 import { LogOut, Plus, UserRound } from "lucide-react";
 
 export function Header() {
@@ -17,7 +17,7 @@ export function Header() {
     <header className="sticky top-0 z-40 border-b bg-background/85 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
         <Link to="/" className="flex items-center gap-3">
-          <img src={logoAsset.url} alt="food n bev" className="h-7 w-auto" />
+          <img src={logoAsset} alt="food n bev" className="h-7 w-auto" />
         </Link>
         <nav className="hidden items-center gap-6 text-sm font-medium md:flex">
           <Link to="/" activeOptions={{ exact: true }} className="text-foreground/70 hover:text-foreground [&.active]:text-foreground">
@@ -69,3 +69,5 @@ export function Header() {
     </header>
   );
 }
+
+
