@@ -38,3 +38,6 @@ foodnbev_supabase_data.sql
 foodnbev_supabase_schema.sql
 
 supabase/.temp/
+
+# Netlify
+.netlify/
