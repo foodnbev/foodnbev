@@ -18,7 +18,7 @@ export type PartyRow = {
   company_id?: string | null;
 };
 
-type Linked = { name: string; website: string | null; logo_url: string | null };
+type Linked = { name: string; website: string | null };
 
 export function PartyCard({ row, canDelete, onDelete }: { row: PartyRow; canDelete: boolean; onDelete?: () => void }) {
   const heading = row.category === "other" ? row.other_label || "Other" : PARTY_CATEGORY_LABEL[row.category];
@@ -31,7 +31,7 @@ export function PartyCard({ row, canDelete, onDelete }: { row: PartyRow; canDele
     void (async () => {
       const { data } = await supabase
         .from("companies")
-        .select("name,website,logo_url")
+        .select("name,website")
         .eq("id", row.company_id!)
         .maybeSingle();
       if (!cancelled && data) setLinked(data as Linked);
@@ -45,8 +45,8 @@ export function PartyCard({ row, canDelete, onDelete }: { row: PartyRow; canDele
         <div className="flex items-start gap-3">
           {linked && (
             <div className="flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md border bg-muted/40">
-              {linked.logo_url && !broken ? (
-                <img src={linked.logo_url} alt={`${linked.name} logo`} className="h-full w-full object-contain p-1" onError={() => setBroken(true)} loading="lazy" />
+              {getLogoUrl(linked.website) && !broken ? (
+                <img src={getLogoUrl(linked.website) ?? undefined} alt={`${linked.name} logo`} className="h-full w-full object-contain p-1" onError={() => setBroken(true)} loading="lazy" />
               ) : (
                 <Building2 className="size-5 text-muted-foreground" />
               )}
@@ -91,3 +91,20 @@ function Line({ icon, v }: { icon: React.ReactNode; v: React.ReactNode }) {
 function safeHost(url: string) {
   try { return new URL(url).hostname.replace(/^www\./, ""); } catch { return url; }
 }
+
+
+function getLogoUrl(website: string | null) {
+  if (!website) return null;
+
+  try {
+    const host = new URL(website).hostname.replace(/^www\./, "");
+    const key = import.meta.env.VITE_LOVABLE_CONNECTOR_LOGO_DEV_API_KEY as string | undefined;
+
+    if (!key) return null;
+
+    return `https://img.logo.dev/${host}?token=${key}&size=128&format=png&fallback=404`;
+  } catch {
+    return null;
+  }
+}
+

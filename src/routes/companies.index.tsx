@@ -118,7 +118,7 @@ function CompanyCard({ c }: { c: Company }) {
   const logoDevKey = import.meta.env.VITE_LOVABLE_CONNECTOR_LOGO_DEV_API_KEY as string | undefined;
   const sources: string[] = [];
   if (host && logoDevKey) sources.push(`https://img.logo.dev/${host}?token=${logoDevKey}&size=128&format=png&fallback=404`);
-  if (c.logo_url) sources.push(c.logo_url);
+
   const [idx, setIdx] = useState(0);
   const src = sources[idx];
   return (
@@ -154,3 +154,4 @@ function CompanyCard({ c }: { c: Company }) {
 function safeHost(url: string) {
   try { return new URL(url).hostname.replace(/^www\./, ""); } catch { return null; }
 }
+
